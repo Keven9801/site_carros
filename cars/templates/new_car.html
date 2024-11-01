@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+  <style>
+    .error-message {
+      color: #d9534f;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .btn {
+      background-color: #0096c7;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+    .btn:hover {
+      background-color: #108eb8;
+    }
+    .btn-primary {
+      background-color: #0096c7;
+    }
+    .btn-secondary {
+      background-color: #444;
+    }
+  </style>
+  {% if not user.is_superuser %}
+    <p class="error-message">Você não tem permissão para cadastrar um novo carro. Somente superusuários podem realizar essa ação.</p>
+  {% else %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <table>
+        {{ form.as_table }}
+      </table>
+      <input type="submit" value="Cadastrar" class="btn btn-primary">
+    </form>
+  {% endif %}
+{% endblock %}

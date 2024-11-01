@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+  <style>
+    .error-container {
+      background-color: #f8d7da; /* Fundo vermelho claro */
+      color: #721c24; /* Texto vermelho escuro */
+      border: 1px solid #f5c6cb; /* Borda correspondente ao fundo */
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px auto;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .error-title {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .error-message {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+    .btn-home {
+      display: inline-block;
+      background-color: #0096c7;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.3s ease-in-out;
+    }
+    .btn-home:hover {
+      background-color: #108eb8;
+    }
+  </style>
+  <div class="error-container">
+    <h2 class="error-title">Acesso negado</h2>
+    <p class="error-message">Você não tem permissão para realizar esta ação. Somente superusuários podem realizar essa ação.</p>
+    <a href="{% url 'cars_list' %}" class="btn-home">Voltar para a lista de carros</a>
+  </div>
+{% endblock %}
