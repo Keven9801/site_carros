@@ -1,31 +1,91 @@
 {% extends "base.html" %}
-
 {% block content %}
-
+  <style>
+    .form-container {
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 800px;
+      margin: 20px auto;
+      text-align: center;
+    }
+    .form-container h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .form-group input[type="text"], .form-group input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      width: calc(100% - 22px);
+      margin-bottom: 10px;
+      background-color: #3a3a3a;
+      color: #e0e0e0;
+      transition: border-color 0.3s ease;
+    }
+    .form-group input[type="text"]:focus, .form-group input[type="password"]:focus {
+      outline: none;
+      border-color: #0096c7;
+    }
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .btn {
+      background-color: #0096c7;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+    .btn:hover {
+      background-color: #108eb8;
+    }
+    .error-message {
+      color: #d9534f;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+  <div class="form-container">
+    <h1>Registrar</h1>
     <form method="post">
-        {% csrf_token %}
-
-        <div class="form-group">
-            {{ user_form.username.errors }}
-            <label>Usuario: </label>
-            {{ user_form.username }}
-        </div>
-
-        <div class="form-group">
-            {{ user_form.password1.errors }}
-            <label>Senha: </label>
-            {{ user_form.password1 }}
-        </div>
-
-        <div class="form-group">
-            {{ user_form.password2.errors }}
-            <label>Confirmação de senha: </label>
-            {{ user_form.password2 }}
-        </div>
-
-        <div class="form-group">
-            <input type="submit" value="cadastrar">
-        </div>
+      {% csrf_token %}
+      <div class="form-group">
+        {{ user_form.username.errors }}
+        <label>Usuário:</label>
+        {{ user_form.username }}
+      </div>
+      <div class="form-group">
+        {{ user_form.password1.errors }}
+        <label>Senha:</label>
+        {{ user_form.password1 }}
+      </div>
+      <div class="form-group">
+        {{ user_form.password2.errors }}
+        <label>Confirmação de Senha:</label>
+        {{ user_form.password2 }}
+      </div>
+      <div class="buttons-container">
+        <input type="submit" value="Cadastrar" class="btn">
+      </div>
     </form>
-
+  </div>
 {% endblock %}

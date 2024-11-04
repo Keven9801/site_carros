@@ -1,10 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
   <style>
-    .error-message {
-      color: #d9534f;
-      font-size: 14px;
-      margin-top: 5px;
+    .form-container {
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 800px;
+      margin: 20px auto;
+    }
+    .form-container h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #444;
+    }
+    th {
+      background-color: #3a3a3a;
+    }
+    input[type="text"], input[type="number"], select, textarea {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      width: calc(100% - 22px);
+      margin-bottom: 10px;
+      background-color: #3a3a3a;
+      color: #e0e0e0;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #0096c7;
+    }
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
     }
     .btn {
       background-color: #0096c7;
@@ -25,16 +68,71 @@
     .btn-secondary {
       background-color: #444;
     }
+    .btn-secondary:hover {
+      background-color: #555;
+    }
+    .error-message {
+      color: #d9534f;
+      font-size: 14px;
+      margin-top: 5px;
+      text-align: center;
+    }
+    .form-field {
+      margin-bottom: 20px;
+    }
+    .form-field label {
+      display: block;
+      font-weight: bold;
+    }
+    .form-field span {
+      display: block;
+      margin-top: 5px;
+    }
   </style>
-  {% if not user.is_superuser %}
-    <p class="error-message">Você não tem permissão para cadastrar um novo carro. Somente superusuários podem realizar essa ação.</p>
-  {% else %}
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <table>
-        {{ form.as_table }}
-      </table>
-      <input type="submit" value="Cadastrar" class="btn btn-primary">
-    </form>
-  {% endif %}
+  <div class="form-container">
+    {% if not user.is_superuser %}
+      <p class="error-message">Você não tem permissão para cadastrar um novo carro. Somente superusuários podem realizar essa ação.</p>
+    {% else %}
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Cadastrar Novo Carro</h1>
+        <table>
+          {% for field in form %}
+            <tr>
+              <th>{{ field.label_tag }}</th>
+              <td>
+                {% if field.field.widget.input_type == "checkbox" %}
+                  <label>
+                    {{ field }}
+                    <span>{{ field.value|yesno:"Sim,Não" }}</span>
+                  </label>
+                {% else %}
+                  {{ field }}
+                {% endif %}
+                {% if field.errors %}
+                  <div class="error-message">{{ field.errors }}</div>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+        <div class="buttons-container">
+          <input type="submit" value="Cadastrar" class="btn btn-primary">
+          <a href="{% url 'cars_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const checkboxes = document.querySelectorAll("input[type=checkbox]");
+      checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener("change", function() {
+          const span = checkbox.nextElementSibling;
+          span.textContent = checkbox.checked ? "Sim" : "Não";
+        });
+      });
+    });
+  </script>
 {% endblock %}
