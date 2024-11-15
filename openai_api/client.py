@@ -3,7 +3,7 @@ import openai
 def get_car_ai_bio(model, brand, year):
     prompt = f"Me mostre uma descrição de venda para o carro {brand} {model} {year} em apenas 250 caracteres. Fale coisas específicas desse modelo."
     
-    openai.api_key = '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'
+    openai.api_key = '****************'
     response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
         messages=[
